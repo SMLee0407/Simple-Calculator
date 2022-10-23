@@ -1,14 +1,54 @@
 from tkinter import *
 from tkinter import ttk
 
+operation = ''
+temp_number = 0
+
 def button_pressed(value):
-    number_entry.insert("end",value)
-    print(value,"pressed")
+    if value == 'AC':
+        number_entry.delete(0, 'end')
+        operation = ''
+        print("AC pressed")
+    else:
+        number_entry.insert("end",value)
+        print(value, "pressed")
+
+def float_filter(value):
+    try:
+        int(value)
+        return int(value)
+    except ValueError:
+        return float(value)
+        
 def math_button_pressed(value):
-    number_entry.insert("end",value)
-    print(value,"pressed")
+    global operation
+    global temp_number
+    if not number_entry.get() == '':
+        operation = value
+        temp_number = float_filter(number_entry.get())
+        number_entry.delete(0, 'end')
+        print(temp_number, operation)
+        
 def equal_button_pressed():
-    print("eqaul pressed")
+    global operation
+    global temp_number
+    if not (operation == '' or number_entry.get() == ''):
+        number = float_filter(number_entry.get())
+        if operation == '/':
+            solution = temp_number/number
+        elif operation == '*':
+            solution = temp_number*number
+        elif operation == '+':
+            solution = temp_number+number
+        else:
+            solution = temp_number-number
+        if int(solution) == float(solution):
+            solution = int(solution)
+        number_entry.delete(0, 'end')
+        number_entry.insert("end",solution)
+        print(temp_number, operation, number, "=", solution)
+        operation = ''
+        temp_number = 0
 
 root = Tk()
 root.title("Calculator")
