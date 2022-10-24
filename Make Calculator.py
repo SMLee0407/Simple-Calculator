@@ -5,6 +5,8 @@ operation = ''
 temp_number = 0
 
 def button_pressed(value):
+    global operation
+    global temp_number
     if value == 'AC':
         number_entry.delete(0, 'end')
         operation = ''
@@ -24,11 +26,12 @@ def math_button_pressed(value):
     global operation
     global temp_number
     if not number_entry.get() == '':
-        operation = value
-        temp_number = float_filter(number_entry.get())
-        number_entry.delete(0, 'end')
-        print(temp_number, operation)
-        
+            equal_button_pressed()
+            temp_number = float_filter(number_entry.get())
+            operation = value
+            number_entry.delete(0, 'end')
+            print(temp_number, operation)
+            
 def equal_button_pressed():
     global operation
     global temp_number
@@ -52,7 +55,8 @@ def equal_button_pressed():
 
 root = Tk()
 root.title("Calculator")
-root.geometry("400x400")
+root.geometry("380x190")
+root.resizable(width = False, height = False)
 
 entry_value = StringVar(root, value = '')
 
@@ -91,6 +95,5 @@ button_add = ttk.Button(root, text = "+", command = lambda:math_button_pressed('
 button_add.grid(row = 3, column = 3)
 button_sub = ttk.Button(root, text = "-", command = lambda:math_button_pressed('-'))
 button_sub.grid(row = 4, column = 3)
-
 
 root.mainloop()
